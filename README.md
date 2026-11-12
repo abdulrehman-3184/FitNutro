@@ -15,6 +15,15 @@ Browser ──> web/frontend (React + Vite :3000)
 The frontend only talks to the backend, so AI keys stay server-side.
 
 ## Run
+Requires Node and [uv](https://docs.astral.sh/uv/) (uv fetches Python 3.12 for the AI service).
+
+```bash
+npm install    # installs frontend, backend, and ai-service (.venv) deps
+npm run dev    # starts all three
+```
+
+Or run each service separately:
+
 | Service  | Dir            | Command                                       |
 |----------|----------------|-----------------------------------------------|
 | Frontend | `web/frontend` | `npm run dev`                                 |
@@ -39,6 +48,6 @@ docker compose down -v         # stop and wipe the local database
 | AI service | http://localhost:8000/health (docs at `/docs`) |
 | Postgres   | `postgresql://fitnutro:fitnutro@localhost:5432/fitnutro` |
 
-After adding an npm/pip package, rebuild that service: `docker compose up --build backend`.
+Source folders are bind-mounted and each container runs `npm install` / `pip install` on start, so code edits hot-reload and new packages only need a restart: `docker compose restart frontend`.
 
 To use Supabase instead of the local `db`, change `DATABASE_URL` under `backend` in `docker-compose.yml`.
